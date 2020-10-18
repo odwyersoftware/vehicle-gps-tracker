@@ -1,0 +1,21 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    restart: on-failure
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_DB: tracker-web-db
+      POSTGRES_PASSWORD: pass
+  app:
+    build: .
+    ports:
+      - 8080:8080
+    entrypoint: bash run.sh
+    environment:
+      DATABASE_URL: postgresql://user:pass@postgres:5432/tracker-web-db
+      SERVER_READ_ENDPOINT: ${SERVER_READ_ENDPOINT}
+    depends_on:
+      - postgres

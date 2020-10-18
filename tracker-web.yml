@@ -1,0 +1,25 @@
+databases:
+- engine: PG
+  name: tracker-web-db
+  num_nodes: 1
+  size: db-s-dev-database
+  version: "12"
+name: tracker-web
+region: fra
+services:
+- dockerfile_path: ./server/Dockerfile
+  envs:
+  - key: DATABASE_URL
+    scope: RUN_TIME
+    value: ${tracker-web-db.DATABASE_URL}
+  github:
+    branch: master
+    deploy_on_push: true
+    repo: odwyersoftware/tracker
+  http_port: 8080
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  source_dir: ./server
+  name: tracker-web
+  routes:
+  - path: /
