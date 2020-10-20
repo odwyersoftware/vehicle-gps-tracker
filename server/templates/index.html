@@ -132,6 +132,7 @@
     map.addLayers([vector]);
 
     var logsEl = document.getElementById('logs');
+    logsEl.innerHTML = '';
 
     for (var i = 0; i < apiResp.length; i++) {
       var value = apiResp[i];
