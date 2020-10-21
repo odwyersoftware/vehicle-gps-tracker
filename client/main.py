@@ -1,6 +1,5 @@
 import os
 import time
-import sys
 import logging
 
 import requests
@@ -9,6 +8,7 @@ from gps3 import gps3
 
 logger = logging.getLogger('logger')
 SERVER_WRITE_ENDPOINT = os.environ['SERVER_WRITE_ENDPOINT']
+SLEEP_BETWEEN_GPS_READS = 5
 
 
 def _configure_logging():
@@ -39,6 +39,7 @@ def read_gps_coords():
                 data_stream.unpack(new_data)
                 lat = data_stream.TPV['lat']
                 lon = data_stream.TPV['lon']
+                time.sleep(SLEEP_BETWEEN_GPS_READS)
                 yield lat, lon
     except OSError:
         logger.exception('Failed reading coords, retrying...')
